@@ -15,6 +15,7 @@ datasource db {
 model Map{
   mapId String @id @default(uuid())
   mapName String
+  isActive Boolean
   isHp Boolean
   isSnd Boolean
   isControl Boolean

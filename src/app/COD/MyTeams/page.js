@@ -7,7 +7,11 @@ export default async function MyTeams({searchParams}){
    
     const userId = searchParams.userId;
     const myTeams = await prisma.team.findMany({where : {userId : userId}})
-    const firstTeam = await prisma.player.findMany({where : {teamId : myTeams[1].teamId}})
+    let firstTeam;
+    if(myTeams)
+        {
+            firstTeam = await prisma.player.findMany({where : {teamId : myTeams[0].teamId}}) 
+        }
    
     return( 
         <section className=" relative">

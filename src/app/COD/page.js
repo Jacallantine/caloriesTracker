@@ -15,6 +15,7 @@ export default async function COD(){
         <section className="relative">
         <SideBar>
             <Link href={`/COD/MyTeams?userId=${session.userId}`}>My Teams</Link>
+            <Link href={`/COD/InputStats`}>Input Stats</Link>
             
         </SideBar>
 
