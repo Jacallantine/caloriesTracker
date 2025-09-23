@@ -15,6 +15,8 @@ export default function Navbar() {
     { label: 'History', href: '/History' },  
     { label: 'Add', href: '/Add' },
     { label: 'Login', href: '/Login' },
+    { label : 'COD', href: '/COD'}
+    
   
   ];
 
@@ -38,7 +40,7 @@ export default function Navbar() {
   
 
   return (
-    <nav className="relative bg-[#FFFFFC] px-4 py-6 text-black flex items-center justify-between">
+    <nav className="z-50 shadow-lg relative bg-[#FFFFFC] px-4 py-6 text-black flex items-center justify-between">
       <h1 className="text-3xl whitespace-nowrap z-10">Calorie Tracker</h1>
 
       <div className="absolute left-1/2 transform -translate-x-1/2">

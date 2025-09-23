@@ -12,6 +12,56 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model Map{
+  mapId String @id @default(uuid())
+  mapName String
+  isHp Boolean
+  isSnd Boolean
+  isControl Boolean
+ player PlayerInstance[]
+
+}
+model Team{ 
+  teamId String @id @default(uuid()) 
+  teamName String
+  userId String
+
+  player Player[]
+  user User @relation(fields:[userId], references:[userId])
+  
+}
+model Player{
+
+  playerId String @id @default(uuid())
+  playerName String
+  userId String
+  teamId String 
+
+  team Team @relation(fields:[teamId], references:[teamId])
+  user User @relation(fields:[userId], references:[userId])
+  playerInstance PlayerInstance[]
+}
+
+model PlayerInstance{
+  instanceId String @id @default(uuid())
+  playerId String
+  mapId String 
+  kills Int
+  deaths Int
+  hillTime Int
+  plants Int
+  defuses Int
+  isAR Boolean
+  isSub Boolean
+  isFlex Boolean
+  controlTicks Int
+
+
+  player Player @relation(fields:[playerId], references:[playerId])
+  map Map @relation(fields:[mapId], references:[mapId])
+
+}
+
 
 
 model User {
@@ -19,9 +69,31 @@ model User {
   firstName String
   lastName  String
   email     String
+  password String @default("test")
+  calorieLimit Int @default(0)
 
   foods Food[]
   days  Day[]
+  dayToFoodBridge DayToFoodBridge[]
+  session Session[]
+  task Task[]
+  player Player[]
+  team Team[]
+}
+
+model Task{
+  userId String
+  taskId  String @id @default(uuid())
+  taskName String
+  taskDesc String
+  taskTime String
+  user User @relation(fields:[userId], references:[userId])
+}
+
+model Session {
+  sessionId String @id
+  userId String
+  user User @relation(fields:[userId], references:[userId])
 }
 
 model Food {
@@ -30,6 +102,7 @@ model Food {
   foodName String
   brand    String
   calories Int
+  isActive Boolean @default(true)
 
   user User @relation(fields: [userId], references: [userId])
   days DayToFoodBridge[]
@@ -49,11 +122,11 @@ model Day {
 model DayToFoodBridge {
   foodId String
   dayId  String
-  quantity Int @default(1)
-
+  userId String 
+  count Int
 
   food Food @relation(fields: [foodId], references: [foodId])
   day  Day  @relation(fields: [dayId], references: [dayId])
-
-  @@id([foodId, dayId])
+  user User @relation(fields: [userId], references: [userId])
+  @@id([foodId, dayId, userId])
 }

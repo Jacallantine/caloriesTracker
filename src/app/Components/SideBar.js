@@ -5,7 +5,7 @@ export default function SideBar({children}) {
     const [isOpen, setIsOpen] = useState(false)
   return (
     <div
-      className={`border-r border-r-gray-400 transition-all duration-300 fixed top-[84px] flex flex-col items-center w-[300px] h-[90vh] z-10 bg-[#171717] text-white ${
+      className={`border-r border-r-gray-400 transition-all duration-300 absolute top-0 left-0 flex flex-col items-center w-[300px] h-[90vh] z-10 bg-[#171717] text-white ${
         isOpen ? 'translate-x-0' : '-translate-x-[300px]'
       }`}
     >
@@ -13,7 +13,7 @@ export default function SideBar({children}) {
 
       <button
         onClick={()=> setIsOpen(!isOpen)} 
-        className="cursor-pointer w-20 absolute -right-12 top-1/2 rotate-90 bg-white text-black"
+        className="[border:1px_solid_rgba(0,0,0,0.8)] cursor-pointer w-20 absolute -right-12 top-1/2 rotate-90 bg-white text-black"
       >
         {isOpen ? 'X' : '^'}
       </button>
