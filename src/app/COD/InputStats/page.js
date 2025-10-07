@@ -10,10 +10,10 @@ const session = await findSession()
         redirect('/Login')
     }
 const maps = await prisma.map.findMany({where : {isActive : true }})
-
+const teams = await prisma.team.findMany({where : {userId : session.userId}, include : {player : true}})
 console.log(maps)
 
     return(
-       <InputStatsClient maps = {maps}/>
+       <InputStatsClient teams = {teams} maps = {maps}/>
     )
 }

@@ -19,6 +19,8 @@ model Map{
   isHp Boolean
   isSnd Boolean
   isControl Boolean
+  
+
  player PlayerInstance[]
 
 }

@@ -24,7 +24,7 @@ let createSession = await prisma.session.create({data:{userId : user.userId, ses
       httpOnly: true, 
       secure: process.env.NODE_ENV === "production", 
       sameSite: "strict",
-      maxAge: 1800, 
+      maxAge: 3600, 
       path: "/",
     });
 

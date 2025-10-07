@@ -50,5 +50,16 @@ body {
  border:1px solid white;
  padding:10px 0px;
  padding-left:10px;
+  border-radius: 8px;
+}
 
+.default-input{
+   border:1px solid white;
+ padding:10px 0px;
+ padding-left:10px;
+ border-radius: 0px;
+}
+
+.default-input:focus{
+  border-radius: 0px !important;
 }

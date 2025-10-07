@@ -41,7 +41,7 @@ export default function Navbar() {
 
   return (
     <nav className="z-50 shadow-lg relative bg-[#FFFFFC] px-4 py-6 text-black flex items-center justify-between">
-      <h1 className="text-3xl whitespace-nowrap z-10">Calorie Tracker</h1>
+      <h1 className="text-3xl whitespace-nowrap z-10">Stat Tracker</h1>
 
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <ul
