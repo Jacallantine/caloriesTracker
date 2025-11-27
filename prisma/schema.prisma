@@ -14,12 +14,15 @@ datasource db {
 }
 model Map{
   mapId String @id @default(uuid())
+  userId String 
   mapName String
   isActive Boolean
   isHp Boolean
   isSnd Boolean
   isControl Boolean
-  
+  isOverload Boolean @default(false)
+
+
 
  player PlayerInstance[]
 
@@ -27,9 +30,10 @@ model Map{
 model Team{ 
   teamId String @id @default(uuid()) 
   teamName String
-  userId String
+  userId String @default("")
 
   player Player[]
+  playerInstance PlayerInstance[]
   user User @relation(fields:[userId], references:[userId])
   
 }
@@ -37,7 +41,7 @@ model Player{
 
   playerId String @id @default(uuid())
   playerName String
-  userId String
+  userId String 
   teamId String 
 
   team Team @relation(fields:[teamId], references:[teamId])
@@ -45,53 +49,85 @@ model Player{
   playerInstance PlayerInstance[]
 }
 
-model PlayerInstance{
-  instanceId String @id @default(uuid())
-  playerId String
-  mapId String 
-  kills Int
-  deaths Int
-  hillTime Int
-  plants Int
-  defuses Int
-  isAR Boolean
-  isSub Boolean
-  isFlex Boolean
-  controlTicks Int
+model PlayerInstance {
+  playerInstanceId String @id
+  mapId    String
+  userId           String 
+  teamId           String
+  playerId         String
+  kills            Int
+  deaths           Int
+  hillTime         Int
+  plants           Int
+  defuses          Int
+  isAR             Boolean
+  isSub            Boolean
+  isFlex           Boolean
+  controlTicks     Int
+  isHp             Boolean @default(false)
+  isSnd            Boolean @default(false)
+  isOverload       Boolean @default(false)
+  isControl        Boolean @default(false)
+  gameMode         GameMode @default(DEFAULT)
+  uploads          Int @default(0)
 
 
-  player Player @relation(fields:[playerId], references:[playerId])
-  map Map @relation(fields:[mapId], references:[mapId])
 
+  team   Team?   @relation(fields: [teamId], references: [teamId])
+  player Player? @relation(fields: [playerId], references: [playerId])
+  map    Map?    @relation(fields: [mapId], references: [mapId])
+  user   User?  @relation(fields: [userId], references: [userId])
+}
+
+enum GameMode{
+  SND
+  HP
+  CONTROL
+  OVERLOAD
+  DEFAULT
 }
 
 
+
+
+
+
+
+model UserPermission{
+  id String @id @default(uuid())
+  userId String
+  permission PermissionType
+  createdAt DateTime @default(now())
+
+  user User @relation(fields:[userId], references:[userId])
+
+
+}
+
+enum PermissionType{
+  admin
+  ai 
+  default
+}
 
 model User {
   userId    String @id @default(uuid())
   firstName String
   lastName  String
-  email     String
+  email     String @unique
   password String @default("test")
-  calorieLimit Int @default(0)
 
-  foods Food[]
-  days  Day[]
-  dayToFoodBridge DayToFoodBridge[]
+
   session Session[]
-  task Task[]
   player Player[]
   team Team[]
+  playerInstance PlayerInstance[]
+  userPermission UserPermission[]
+
+
 }
 
-model Task{
-  userId String
-  taskId  String @id @default(uuid())
-  taskName String
-  taskDesc String
-  taskTime String
-  user User @relation(fields:[userId], references:[userId])
-}
+
 
 model Session {
   sessionId String @id
@@ -99,37 +135,6 @@ model Session {
   user User @relation(fields:[userId], references:[userId])
 }
 
-model Food {
-  foodId   String @id @default(uuid())
-  userId   String
-  foodName String
-  brand    String
-  calories Int
-  isActive Boolean @default(true)
 
-  user User @relation(fields: [userId], references: [userId])
-  days DayToFoodBridge[]
-}
 
-model Day {
-  dayId  String @id @default(uuid())
-  date   String
-  userId String
 
-  user  User @relation(fields: [userId], references: [userId])
-  foods DayToFoodBridge[]
-
-  @@unique([userId, date])
-}
-
-model DayToFoodBridge {
-  foodId String
-  dayId  String
-  userId String 
-  count Int
-
-  food Food @relation(fields: [foodId], references: [foodId])
-  day  Day  @relation(fields: [dayId], references: [dayId])
-  user User @relation(fields: [userId], references: [userId])
-  @@id([foodId, dayId, userId])
-}

@@ -2,7 +2,7 @@
 import { useState } from "react"
 
 export default function SideBar({children, css}) {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(true)
   return (
     <div
       className={`border-r border-r-gray-400 transition-all duration-300 absolute top-0 left-0 flex flex-col items-center w-[300px] h-[90vh] z-10 bg-[#171717] text-white ${

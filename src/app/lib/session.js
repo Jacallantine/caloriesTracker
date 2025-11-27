@@ -1,17 +1,28 @@
 import { redirect } from "next/navigation";
-import prisma from "./prisma";
+
 import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 
+export async function findSession(isRedirect = true) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
 
-export async function findSession(){
-const cookieStore = await cookies()
-const sessionId = cookieStore.get("session")
-if(sessionId === undefined){
-    redirect("/Login")
-}
+  if (!token) {
+    if (isRedirect) redirect("/Login");
+    return null;
+  }
 
+  // Decode the JWT
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    if (isRedirect) redirect("/Login");
+    return null;
+  }
 
-const session = await prisma.session.findFirstOrThrow({where : {sessionId : sessionId.value}})
-return session
-
+  // decoded = { userId: "xxxx", iat: ..., exp: ... }
+  return {
+    userId: decoded.userId,
+  };
 }

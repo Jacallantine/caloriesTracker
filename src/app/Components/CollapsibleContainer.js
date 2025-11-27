@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import GreenButton from "./Buttons/Green";
 
-export default function CollapsibleContainer({xCss, children, title, toggle, wrapperCss, subCss, showButton}){
+export default function CollapsibleContainer({xCss, children, title, toggle, wrapperCss, subCss, showButton, greenButtonCss}){
     
 const [isOpen, setIsOpen] = useState(toggle)
  useEffect(() => {
@@ -18,7 +18,7 @@ return (
         <GreenButton 
             initLabel="Add Map?" 
             initFunc={() => setIsOpen(!isOpen)} 
-            initCss={isOpen ? "hidden" : "block"} 
+            initCss={`${isOpen ? "hidden" : "block"} ${greenButtonCss} `} 
         />
             ) : (
                 ""
@@ -30,7 +30,6 @@ return (
 
         {children}
 
-        <button className={`${xCss}`} onClick={()=> setIsOpen(!isOpen)}>X</button>
     </div>
      </div>
 )
